@@ -1,0 +1,32 @@
+# Sistema operacional e editores
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.user
+*.suo
+
+# Frontend / Next.js
+web/node_modules/
+web/.next/
+web/out/
+web/.env
+web/.env.local
+web/.env.*.local
+web/npm-debug.log*
+web/yarn-debug.log*
+web/yarn-error.log*
+web/pnpm-debug.log*
+*.tsbuildinfo
+
+# Backend / .NET
+api/bin/
+api/obj/
+api/*.db
+api/*.db-shm
+api/*.db-wal
+api/appsettings.Development.json
+
+# Arquivos temporários
+*.tmp
+*.log
