@@ -4,7 +4,7 @@ https://support-flow-two.vercel.app
 
 # SupportFlow
 
-Aplicação pequena de portfólio para gerenciar solicitações de atendimento. O projeto oferece uma visão rápida dos atendimentos, busca e filtro, além do fluxo completo de criação, edição e exclusão.
+Aplicação Full Stack para gerenciamento de solicitações de atendimento, com dashboard, busca, filtros e fluxo completo de criação, edição e exclusão.
 
 ## Arquitetura
 
