@@ -10,7 +10,7 @@ O SupportFlow está dividido em duas aplicações independentes:
 - **`api`**: ASP.NET Core Web API responsável pelas regras de entrada, consultas, persistência e dados iniciais.
 - **PostgreSQL**: banco relacional gerenciado pelo Entity Framework Core e pelo provedor Npgsql.
 
-O frontend se comunica por HTTP com a API. O CORS do backend aceita somente a origem local padrão do frontend (`http://localhost:3000`). Ao iniciar, a API aplica as migrations pendentes e insere seis solicitações de demonstração somente quando a tabela está vazia.
+O frontend se comunica por HTTP com a API. O CORS aceita `http://localhost:3000` em desenvolvimento e, em produção, somente a origem configurada em `FrontendUrl`. Ao iniciar, a API aplica as migrations pendentes e insere seis solicitações de demonstração somente quando a tabela está vazia.
 
 ## Tecnologias
 
@@ -67,13 +67,40 @@ O valor deve ser uma connection string PostgreSQL válida mantida somente no arm
 
 ### Produção com variável de ambiente
 
-Defina `ConnectionStrings__DefaultConnection` no ambiente do processo ou no gerenciador de segredos da plataforma:
+Defina as variáveis no ambiente do processo ou no gerenciador de segredos da plataforma:
+
+- `ConnectionStrings__DefaultConnection`: conexão PostgreSQL usada pela API.
+- `FrontendUrl`: origem pública do frontend autorizada pelo CORS, incluindo protocolo e sem caminho final.
 
 ```bash
 ConnectionStrings__DefaultConnection="<CONEXAO_POSTGRESQL>" dotnet SupportFlow.Api.dll
 ```
 
 Substitua apenas o marcador no ambiente seguro de implantação; não registre o valor real no repositório ou nos logs.
+
+## Publicação da API no Render com Docker
+
+Crie um **Web Service** no Render apontando para o repositório e use estas configurações:
+
+- **Runtime**: Docker
+- **Root Directory**: `api`
+- **Dockerfile Path**: `Dockerfile`
+- **Health Check Path**: `/health`
+
+Cadastre no ambiente do serviço:
+
+```text
+ConnectionStrings__DefaultConnection=<CONEXAO_POSTGRESQL>
+FrontendUrl=https://<ORIGEM_PUBLICA_DO_FRONTEND>
+```
+
+O Render fornece `PORT` automaticamente. A API usa esse valor e escuta em `0.0.0.0`; a imagem usa a porta `8080` apenas como fallback fora da hospedagem. As migrations pendentes são aplicadas durante a inicialização.
+
+Para construir a imagem localmente a partir da raiz do repositório:
+
+```bash
+docker build --file api/Dockerfile --tag supportflow-api api
+```
 
 ## Como executar o backend
 

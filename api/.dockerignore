@@ -1,0 +1,15 @@
+**/bin/
+**/obj/
+.git/
+.gitignore
+.vs/
+.vscode/
+.env
+.env.*
+*.db
+*.db-shm
+*.db-wal
+*.user
+Dockerfile*
+Properties/launchSettings.json
+README*
