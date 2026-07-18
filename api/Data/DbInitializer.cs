@@ -10,7 +10,7 @@ public static class DbInitializer
         using var scope = services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<SupportFlowDbContext>();
 
-        await context.Database.EnsureCreatedAsync();
+        context.Database.Migrate();
 
         if (await context.SupportRequests.AnyAsync())
         {
